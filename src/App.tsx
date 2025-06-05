@@ -74,17 +74,28 @@ function DroppableContainer({ children, columnId, onDrop }: DroppableContainerPr
 }
 
 function App() {
-  const [column1Items, setColumn1Items] = useState<Item[]>([
+  // Definir el estado inicial como constantes
+  const initialColumn1Items: Item[] = [
     { id: 1, text: 'Fix workshop' },
     { id: 2, text: 'Meeting at 9AM' },
-  ])
+  ];
   
-  const [column2Items, setColumn2Items] = useState<Item[]>([
+  const initialColumn2Items: Item[] = [
     { id: 3, text: 'Visit the zoo' },
     { id: 4, text: 'Wash Clothes' },
-  ])
+  ];
   
-  const [column3Items, setColumn3Items] = useState<Item[]>([])
+  // Modificar los useState para usar las constantes iniciales
+  const [column1Items, setColumn1Items] = useState<Item[]>(initialColumn1Items);
+  const [column2Items, setColumn2Items] = useState<Item[]>(initialColumn2Items);
+  const [column3Items, setColumn3Items] = useState<Item[]>([]);
+
+  // Añadir la función de reset
+  const handleReset = () => {
+    setColumn1Items(initialColumn1Items);
+    setColumn2Items(initialColumn2Items);
+    setColumn3Items([]);
+  };
 
   const moveItem = (item: Item, source: string, destination: string) => {
     if (source === destination) return;
@@ -114,9 +125,17 @@ function App() {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="p-6 min-h-screen">
-        <h1 className="text-2xl font-bold text-center mb-8">
-          Vite + React + Drag and Drop
-        </h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold">
+            Vite + React + Drag and Drop
+          </h1>
+          <button
+            onClick={handleReset}
+            className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200 shadow-sm"
+          >
+            Reset Tasks
+          </button>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-gray-200 rounded">
